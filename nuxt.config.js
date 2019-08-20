@@ -1,4 +1,3 @@
-
 module.exports = {
   mode: 'universal',
   /*
@@ -42,13 +41,30 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/apollo',
+    '@nuxtjs/pwa',
+    '@nuxtjs/router'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+  /*
+  ** Apollo module configuration
+  ** See https://github.com/nuxt-community/apollo-module
+  */
+  apollo: {
+    includeNodeModules: true,
+    clientConfigs: {
+      default: {
+        httpEndpoint: process.env.GRAPHQL_API_URI,
+        httpLinkOptions: {
+          credentials: 'include'
+        }
+      }
+    }
   },
   /*
   ** Build configuration
@@ -58,6 +74,13 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+    }
+  },
+
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: true
     }
   }
 }
