@@ -1,0 +1,56 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+p,
+ul,
+li,
+span {
+  line-height: 1.4;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 400;
+  text-align: justify;
+  letter-spacing: 1px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  &.soli{
+    &::first-letter {
+      font-size: 120%;
+    }
+  }
+}
+
+.font {
+  &-serif {
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  &-slab {
+    font-family: 'Roboto Slab', sans-serif;
+  }
+
+  &-thin {
+    font-weight: 100;
+  }
+
+  &-light {
+    font-weight: 300;
+  }
+
+  &-bold {
+    font-weight: 700;
+  }
+
+  &-black {
+    font-weight: 900;
+  }
+
+  &-italic {
+    font-style: italic;
+  }
+}
