@@ -16,7 +16,7 @@ export const actions = {
       const res = await apollo.mutate({
         mutation: gql`
           mutation {
-            verify {
+            verifyUser {
               userName
               firstName
               lastName
@@ -36,7 +36,7 @@ export const actions = {
         `
       })
 
-      commit(types.USER_INFO, res.data.verify)
+      commit(types.USER_INFO, res.data.verifyUser)
     } catch (error) {
       throw new Error(error)
     }
