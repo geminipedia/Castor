@@ -15,3 +15,7 @@ export const MENU_ITEM = 'MENU_ITEM'
 export const SITE_NAME = 'SITE_NAME'
 
 export const SITE_DOMAIN = 'SITE_DOMAIN'
+
+export const USER_INFO = 'USER_INFO'
+
+export const USER_LOGOUT = 'USER_LOGOUT'
