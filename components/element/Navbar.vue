@@ -8,7 +8,7 @@
         class="navbar-logo-box"
         @click="$router.go({ path: '/' })"
       >
-        <img src="~/static/logo/MSLibLogo.svg" :alt="`${site.name}'s Logo'`">
+        <img src="~/static/logo/gemini-logo.svg" :alt="`${site.name}'s Logo'`">
         <div class="text-block font-slab font-thin">
           MS Library
         </div>
