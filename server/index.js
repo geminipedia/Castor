@@ -92,7 +92,7 @@ async function start () {
 
     if (oldHash !== newHash) {
       consola.info({
-        message: `Updating dynamic router file: static/routeList.json \n\nhash ${md5(dynamicRoutes)}`,
+        message: `Updating dynamic router file: static/routeList.json \n\nhash ${md5(JSON.stringify(dynamicRoutes))}`,
         badge: true
       })
       await saveFile(generatedTarget, JSON.stringify(dynamicRoutes))
