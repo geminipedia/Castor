@@ -6,7 +6,7 @@ import * as theme from '~/components/theme'
 
 Vue.use(Router)
 
-const fetchRouteDataFromSite = (data) => {
+export const fetchRouteDataFromSite = (data) => {
   try {
     const menu = data.site.menu
 
