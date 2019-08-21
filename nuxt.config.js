@@ -48,6 +48,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/router',
     'nuxt-ssr-cache',
+    'nuxt-webfontloader',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }]
   ],
   /*
@@ -69,6 +70,18 @@ module.exports = {
           credentials: 'include'
         }
       }
+    }
+  },
+  /*
+   ** Webfont
+   */
+  webfontloader: {
+    google: {
+      families: [
+        'Noto+Sans+TC:100,300,400,500,700,900',
+        'Noto+Serif+TC:100,300,400,500,700',
+        'Roboto+Slab:100,300,400,500,700&subset=chinese-traditional,japanese'
+      ]
     }
   },
   /*
