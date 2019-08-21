@@ -1,7 +1,7 @@
 <template>
-  <div id="home">
-    <section />
-  </div>
+  <section>
+    <div />
+  </section>
 </template>
 
 <script>
@@ -15,3 +15,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import "~/components/theme/assets/scss/main.scss";
+</style>
