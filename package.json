@@ -26,6 +26,7 @@
     "cross-env": "^5.2.0",
     "dotenv-cli": "^2.0.1",
     "graphql-tag": "^2.10.1",
+    "js-md5": "^0.7.3",
     "koa": "^2.6.2",
     "node-fetch": "^2.6.0",
     "nuxt": "^2.0.0",

@@ -92,3 +92,6 @@ sw.*
 
 # Preference files
 *.env
+
+# Generated router file
+static/routeList.json

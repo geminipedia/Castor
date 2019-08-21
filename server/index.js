@@ -1,5 +1,10 @@
-const Koa = require('koa')
+const fs = require('fs')
+const path = require('path')
+const axios = require('axios')
 const consola = require('consola')
+const gql = require('graphql-tag')
+const md5 = require('js-md5')
+const Koa = require('koa')
 const { Nuxt, Builder } = require('nuxt')
 
 const app = new Koa()
@@ -8,7 +13,84 @@ const app = new Koa()
 const config = require('../nuxt.config.js')
 config.dev = app.env !== 'production'
 
+const getDynamicRoutes = async () => {
+  const res = await axios.post(process.env.GRAPHQL_API_URI, {
+    query: gql`
+      query($siteName: String!) {
+        site(
+          where: {
+            name: $siteName
+          }
+        ) {
+          name
+          domain
+          menu {
+            path
+            name
+            type
+            index
+            label {
+              lang { code }
+              text
+            }
+            head {
+              title
+              meta {
+                charset
+                name
+                property
+                content
+              }
+            }
+            layout {
+              name
+              component
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      siteName: process.env.SITE_NAME
+    }
+  })
+
+  return res.data.data
+}
+
+const saveFile = (filePath, fileData) => new Promise((resolve, reject) => {
+  const writeStream = fs.createWriteStream(filePath)
+  writeStream.write(fileData, 'UTF8')
+  writeStream.end()
+
+  writeStream.on('finish', () => {
+    resolve()
+  })
+
+  writeStream.on('error', (err) => {
+    reject(err)
+  })
+})
+
 async function start () {
+  // Get dynamic routes and write to file before init Nuxt worker
+  const dynamicRoutes = await getDynamicRoutes()
+  const generatedTarget = path.resolve(__dirname, '../static/routeList.json')
+  const isExisted = await fs.existsSync(generatedTarget)
+
+  if (!isExisted) {
+    await saveFile(generatedTarget, JSON.stringify(dynamicRoutes))
+  } else {
+    // Compare if file existed
+    const oldFile = require('../static/routeList.json')
+    const oldHash = md5(JSON.stringify(oldFile))
+    const newHash = md5(JSON.stringify(dynamicRoutes))
+
+    if (oldHash !== newHash) {
+      await saveFile(generatedTarget, JSON.stringify(dynamicRoutes))
+    }
+  }
+
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config)
 

@@ -9,13 +9,9 @@ export default {
   name: 'Home',
   head () {
     return {
-      title: this.$route.meta.head.title,
-      meta: this.$route.meta.head.meta
+      title: this.$route.meta.head ? this.$route.meta.head.title : '',
+      meta: this.$route.meta.head ? this.$route.meta.head.meta : ''
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
