@@ -1,5 +1,8 @@
 <template>
-  <div class="navbar">
+  <div
+    :class="[{ 'toggle': isToggleNavbar }, scrollDirect]"
+    class="navbar"
+  >
     <div class="navbar-top">
       <div
         class="navbar-logo-box"
@@ -18,7 +21,7 @@
         <div
           v-if="$route.name.includes(item.name) && item.name !== 'Home'"
           class="text-block"
-          @click="$router.push({ name: item.name })"
+          @click="$router.go({ name: item.name })"
         >
           <span
             v-if="lang !== 'en_US'"
