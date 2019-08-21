@@ -43,7 +43,9 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
     '@nuxtjs/pwa',
-    '@nuxtjs/router'
+    '@nuxtjs/router',
+    'nuxt-ssr-cache',
+    ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }]
   ],
   /*
   ** Axios module configuration
@@ -66,6 +68,23 @@ module.exports = {
       }
     }
   },
+  /*
+  ** Optimizations
+  */
+  cache: {
+    store: {
+      type: 'memory',
+      stores: [
+        {
+          type: 'memory',
+          max: 4096,
+          ttl: 60
+        }
+      ]
+    },
+    pages: [ '/' ]
+  },
+  parallel: true,
   /*
   ** Build configuration
   */
