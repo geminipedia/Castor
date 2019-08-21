@@ -79,6 +79,10 @@ async function start () {
   const isExisted = await fs.existsSync(generatedTarget)
 
   if (!isExisted) {
+    consola.info({
+      message: `Generating dynamic router file: static/routeList.json \n\nhash ${md5(JSON.stringify(dynamicRoutes))}`,
+      badge: true
+    })
     await saveFile(generatedTarget, JSON.stringify(dynamicRoutes))
   } else {
     // Compare if file existed
@@ -87,7 +91,16 @@ async function start () {
     const newHash = md5(JSON.stringify(dynamicRoutes))
 
     if (oldHash !== newHash) {
+      consola.info({
+        message: `Updating dynamic router file: static/routeList.json \n\nhash ${md5(dynamicRoutes)}`,
+        badge: true
+      })
       await saveFile(generatedTarget, JSON.stringify(dynamicRoutes))
+    } else {
+      consola.info({
+        message: `Dynamic router file is up-to-date, skip generating...`,
+        badge: true
+      })
     }
   }
 
