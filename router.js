@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import gql from 'graphql-tag'
+import axios from 'axios'
 
-import apolloClient from './util/apolloClient'
 import * as theme from '~/components/theme'
 
 Vue.use(Router)
@@ -35,8 +35,7 @@ const fetchRouteDataFromSite = (data) => {
 
 export const createRouter = async () => {
   try {
-    const apollo = apolloClient
-    const res = await apollo.query({
+    const res = await axios.post(process.env.GRAPHQL_API_URI, {
       query: gql`
         query($siteName: String!) {
           site(
@@ -79,7 +78,7 @@ export const createRouter = async () => {
 
     return new Router({
       mode: 'history',
-      routes: [ ...fetchRouteDataFromSite(res.data) ],
+      routes: [ ...fetchRouteDataFromSite(res.data.data) ],
       scrollBehavior: (to, from, savedPosition) => {
         return { x: 0, y: 0 }
       }
