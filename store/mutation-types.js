@@ -19,3 +19,7 @@ export const SITE_DOMAIN = 'SITE_DOMAIN'
 export const USER_INFO = 'USER_INFO'
 
 export const USER_LOGOUT = 'USER_LOGOUT'
+
+export const ITEMS = 'ITEMS'
+
+export const ITEMS_APPEND = 'ITEMS_APPEND'
