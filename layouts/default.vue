@@ -2,18 +2,30 @@
   <div id="app">
     <Navbar />
     <nuxt class="spotlight-container" />
+    <no-ssr>
+      <Login v-if="isToggleLogin" />
+    </no-ssr>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import Login from '~/components/element/Login'
 import Navbar from '~/components/element/Navbar'
 
 export default {
   name: 'Default',
 
   components: {
+    Login,
     Navbar
+  },
+
+  computed: {
+    ...mapGetters({
+      isToggleLogin: 'app/isToggleLogin',
+      isToggleSignUp: 'app/isToggleSignUp'
+    })
   },
 
   async mounted () {
