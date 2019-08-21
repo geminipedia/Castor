@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <nuxt />
+    <nuxt class="spotlight-container" />
   </div>
 </template>
 
