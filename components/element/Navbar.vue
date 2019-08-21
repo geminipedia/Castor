@@ -64,12 +64,12 @@
         </div>
         <no-ssr>
           <div
-            v-if="user && user.id"
+            v-if="user && user.userName"
             class="user-menu"
           >
             <img
-              v-if="user.meta && user.meta.avatar"
-              :src="user.meta.avatar"
+              v-if="user.avatar"
+              :src="user.avatar.file.path"
             >
             <font-awesome-icon v-else :icon="['fas', 'user']" />
           </div>
