@@ -19,12 +19,12 @@ export const fetchRouteDataFromSite = (data) => {
       name: page.name,
       component: theme[page.layout.component],
       meta: {
+        index: page.index,
         label: {
-          ...page.label.map(label => ({
-            [label.lang.code]: label.text
-          }))
+          ...page.label.reduce((obj, item) => Object.assign(obj, { [item.lang.code]: item.text }), {})
         },
-        head: page.head
+        head: page.head,
+        type: page.type
       }
     }))
   } catch (error) {

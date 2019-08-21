@@ -18,6 +18,7 @@ export const actions = {
 
         return item
       })
+      .filter(item => (item.meta.type === 'MAIN' || item.meta.type === 'HOME'))
     commit(types.MENU_ITEM, result)
   }
 }
