@@ -1,0 +1,21 @@
+// NavbarDesktop
+
+@function navbarDesktopHeight ($size) {
+  @return $size / 12;
+}
+
+@function navbarDesktopMenuHeight ($size) {
+  @return navbarDesktopHeight($size) * .5;
+}
+
+@function navbarDesktopTopHeight ($size) {
+  @return navbarDesktopHeight($size) - navbarDesktopMenuHeight($size);
+}
+
+@mixin resetBrowserApperance {
+  appearance: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
