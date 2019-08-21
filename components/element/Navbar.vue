@@ -36,7 +36,7 @@
         <li
           v-for="item in menuItem"
           :key="item.name"
-          :class="{ 'active' : $route.name.includes(item.name) }"
+          :class="{ 'active': $route.name.includes(item.name) }"
         >
           <nuxt-link :to="item.path">
             <span class="label font-serif">{{ item.meta.label[lang] }}</span>
@@ -49,21 +49,152 @@
           </nuxt-link>
         </li>
       </ul>
+      <div class="toolbar">
+        <div
+          :class="{ 'active': activeSearchBar }"
+          class="search-bar"
+        >
+          <input type="search" name="" placeholder="Search" maxlength="13">
+          <div
+            class="button"
+            @click="activeSearchBar = !activeSearchBar"
+          >
+            <font-awesome-icon icon="search" />
+          </div>
+        </div>
+        <no-ssr>
+          <div
+            v-if="user && user.id"
+            class="user-menu"
+          >
+            <img
+              v-if="user.meta && user.meta.avatar"
+              :src="user.meta.avatar"
+            >
+            <font-awesome-icon v-else :icon="['fas', 'user']" />
+          </div>
+          <div
+            v-else
+            class="user-menu no-signin"
+            @click="toggleLogin(true)"
+          >
+            <span class="font-thin uppercase">Sign In</span>
+          </div>
+        </no-ssr>
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Navbar',
+
+  data () {
+    return {
+      activeSearchBar: false,
+      oldScrollPosition: 0
+    }
+  },
 
   computed: {
     ...mapGetters({
       lang: 'app/language',
       menuItem: 'menu/item',
-      site: 'app/site'
+      isMobile: 'app/isMobile',
+      isToggleNavbar: 'app/isToggleNavbar',
+      scrollDirect: 'app/scrollDirect',
+      site: 'app/site',
+      user: 'user/info'
     })
+  },
+
+  watch: {
+    $route () {
+      this.addScrollHandler()
+    }
+  },
+
+  mounted () {
+    this.addScrollHandler()
+  },
+
+  destroyed () {
+    this.removeScrollHandler()
+  },
+
+  methods: {
+    ...mapActions({
+      toggleLogin: 'app/toggleLogin',
+      toggleNavbar: 'app/toggleNavbar',
+      toggleScrollDirect: 'app/toggleScrollDirect'
+    }),
+
+    toggleNavbarHandler () {
+      const scrollPosition = document.querySelector('#__nuxt').getBoundingClientRect().y * -1
+
+      if (scrollPosition >= document.querySelector('.navbar-top').clientHeight * 0.5) {
+        if (!this.isToggleNavbar) {
+          this.toggleNavbar(true)
+        }
+      } else if (this.isToggleNavbar) {
+        this.toggleNavbar(false)
+      }
+    },
+
+    navbarEffectHandler () {
+      const scrollPosition = document.querySelector('#__nuxt').getBoundingClientRect().y * -1
+
+      if (scrollPosition - this.oldScrollPosition > 0 && scrollPosition > 0) {
+        this.toggleScrollDirect('down')
+      } else {
+        this.toggleScrollDirect('up')
+      }
+
+      if (scrollPosition === 0) {
+        this.toggleScrollDirect('')
+      }
+
+      this.oldScrollPosition = scrollPosition
+    },
+
+    addScrollHandler () {
+      if (this.$route.name !== 'Home') {
+        this.addNavbarEffectHandler()
+      } else {
+        this.removeNavbarEffectHandler()
+      }
+
+      if (this.$route.name === 'Home') {
+        this.addToggleNavbarHandler()
+        this.toggleNavbar(false)
+      } else {
+        this.removeToggleNavbarHandler()
+        this.toggleNavbar(true)
+      }
+    },
+
+    removeScrollHandler () {
+      this.removeToggleNavbarHandler()
+      this.removeNavbarEffectHandler()
+    },
+
+    addToggleNavbarHandler () {
+      document.addEventListener('scroll', this.toggleNavbarHandler)
+    },
+
+    addNavbarEffectHandler () {
+      document.addEventListener('scroll', this.navbarEffectHandler)
+    },
+
+    removeToggleNavbarHandler () {
+      document.removeEventListener('scroll', this.toggleNavbarHandler)
+    },
+
+    removeNavbarEffectHandler () {
+      document.removeEventListener('scroll', this.navbarEffectHandler)
+    }
   }
 }
 </script>
