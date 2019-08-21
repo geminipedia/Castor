@@ -1,0 +1,121 @@
+@keyframes popup-fadein {
+  from {
+    transform: perspective(500px) translate3d(0, 100rem, -100rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.popup {
+  &-container {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($white, .9);
+    overflow: hidden;
+  }
+
+  &-close {
+    position: absolute;
+    right: calc((100% - 700px) / 2 + 1rem);
+    top: calc((100% - 550px) / 2 + 1rem);
+    font-size: 1.5rem;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $gray;
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+    transform-origin: bottom center;
+    animation: popup-fadein .3s forwards cubic-bezier(.8, .1, .45, .9);
+
+    &:hover {
+      color: $black;
+    }
+
+    &:before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      z-index: -1;
+    }
+  }
+
+  &-content-box {
+    z-index: -1;
+    height: 550px;
+    width: 700px;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    color: $black;
+    background-color: $white;
+    box-shadow: $popup-box-shadow;
+    transform-origin: center;
+    animation: popup-fadein .3s forwards cubic-bezier(.8, .1, .45, .9);
+
+    .content {
+
+      h1,
+      p {
+        text-align: center;
+        margin-bottom: 1.2rem;
+      }
+
+      h1 {
+        font-size: 28pt;
+      }
+
+      p {
+        font-size: 14pt;
+
+        &.mini {
+          font-size: 12pt;
+        }
+      }
+
+      .special {
+        color: $tone;
+        cursor: pointer;
+      }
+    }
+
+    .action-block {
+      position: relative;
+      margin: 2rem 10rem;
+
+      .error-msg {
+        color: $heart;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+
+      form {
+        input[name="password"] {
+          margin-bottom: 2rem;
+        }
+
+        button {
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+}

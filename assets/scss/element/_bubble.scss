@@ -1,0 +1,12 @@
+.bubble {
+  &-count {
+    padding: 4px 7px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    color: $gray;
+    font-size: 16px;
+    transition: all ease-in-out .3s;
+    white-space: nowrap;
+  }
+}

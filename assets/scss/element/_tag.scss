@@ -1,0 +1,30 @@
+.tag {
+  &-container {
+    &-belong {
+      &-article {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  &--article {
+    background-color: rgba($light, .7);
+    padding: 4px 7px;
+    margin: 0 10px 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    color: $gray;
+    font-size: 16px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $light;
+    }
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
