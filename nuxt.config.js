@@ -48,6 +48,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/router',
     'nuxt-ssr-cache',
+    '@nuxtjs/google-gtag',
     'nuxt-webfontloader',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }]
   ],
@@ -101,6 +102,23 @@ module.exports = {
     pages: [ '/' ]
   },
   parallel: true,
+  /*
+   ** GTM configuration
+   */
+  'google-gtag': {
+    id: 'GTM-KM96FKF', // required
+    config: {
+      // this are the config options for `gtag
+      // check out official docs: https://developers.google.com/analytics/devguides/collection/gtagjs/
+      anonymize_ip: false, // anonymize IP
+      send_page_view: true, // might be necessary to avoid duplicated page track on page reload
+      linker: {
+        domains: ['mslib.tw']
+      }
+    },
+    debug: false, // enable to track in dev mode
+    disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...)
+  },
   /*
   ** Build configuration
   */
