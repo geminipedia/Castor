@@ -6,7 +6,7 @@
     <div class="navbar-top">
       <div
         class="navbar-logo-box"
-        @click="$router.go({ path: '/' })"
+        @click="$router.push({ path: '/' })"
       >
         <img src="~/static/logo/gemini-logo.svg" :alt="`${site.name}'s Logo'`">
         <div class="text-block font-slab font-thin">
@@ -21,7 +21,7 @@
         <div
           v-if="$route.name.includes(item.name) && item.name !== 'Home'"
           class="text-block"
-          @click="$router.go({ name: item.name })"
+          @click="$router.push({ path: item.path })"
         >
           <span
             v-if="lang !== 'en_US'"
