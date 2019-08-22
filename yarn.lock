@@ -1508,6 +1508,11 @@
     consola "^2.9.0"
     eslint-loader "^2.2.1"
 
+"@nuxtjs/google-gtag@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/google-gtag/-/google-gtag-1.0.4.tgz#57562d8ec4c7694573e77edf72097da4a34b0d68"
+  integrity sha512-0Xgbx1uQ9pKeV2QdU9xoxJVdgH66qyGQJ0l8pzVxz5X476qvJunj6fbcjWk0gT+MEX/VOAhfT/zw0Z1z9q9oNg==
+
 "@nuxtjs/icon@3.0.0-beta.16":
   version "3.0.0-beta.16"
   resolved "https://registry.yarnpkg.com/@nuxtjs/icon/-/icon-3.0.0-beta.16.tgz#b2eb8a2bc88bfcef71125ce73a69c0fdda4590f8"
