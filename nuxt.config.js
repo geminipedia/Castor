@@ -4,7 +4,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.SITE_NAME || '',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -106,14 +106,14 @@ module.exports = {
    ** GTM configuration
    */
   'google-gtag': {
-    id: 'GTM-KM96FKF', // required
+    id: process.env.GOOGLE_GTM_ID,
     config: {
       // this are the config options for `gtag
       // check out official docs: https://developers.google.com/analytics/devguides/collection/gtagjs/
       anonymize_ip: false, // anonymize IP
       send_page_view: true, // might be necessary to avoid duplicated page track on page reload
       linker: {
-        domains: ['mslib.tw']
+        domains: [ process.env.SITE_DOMAIN ]
       }
     },
     debug: false, // enable to track in dev mode
