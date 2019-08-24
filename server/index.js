@@ -5,7 +5,10 @@ const consola = require('consola')
 const gql = require('graphql-tag')
 const md5 = require('js-md5')
 const Koa = require('koa')
+const dotenv = require('dotenv')
 const { Nuxt, Builder } = require('nuxt')
+
+dotenv.config({ path: path.join(__dirname, '.env') })
 
 const app = new Koa()
 
