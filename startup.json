@@ -1,8 +1,8 @@
 {
   "apps": [{
     "name": "Gemini-Castor",
-    "script": "./node_modules/.bin/dotenv",
-    "args": ["-e .env ./node_modules/.bin/cross-env NODE_ENV=production node server/index.js"],
+    "script": "server/index.js",
+    "args": ["./node_modules/.bin/dotenv -e .env ./node_modules/.bin/cross-env NODE_ENV=production node server/index.js"],
     "instances" : "max",
     "exec_mode" : "cluster",
     "watch": true
