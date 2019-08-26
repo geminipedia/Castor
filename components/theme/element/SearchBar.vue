@@ -149,8 +149,8 @@ export default {
   },
 
   async mounted () {
-    this.searchText = this.searchRawText
-    this.advanceSearchBlock = this.searchRawText
+    this.searchText = JSON.parse(JSON.stringify(this.searchRawText)) // Fix js shadow copy
+    this.advanceSearchBlock = JSON.parse(JSON.stringify(this.searchRawText)) // Fix js shadow copy
     await this.getAllProperties()
     this.generateFilterFromProperties()
   },
@@ -185,7 +185,7 @@ export default {
           }))
         }
 
-        this.searchText = this.advanceSearchBlock
+        this.searchText = JSON.parse(JSON.stringify(this.advanceSearchBlock)) // Fix js shadow copy
       } else {
         query = { name_contains: this.searchText }
       }
