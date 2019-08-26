@@ -12,7 +12,7 @@ export const getters = {
 export const actions = {
   async verify ({ commit }) {
     try {
-      const apollo = this.app.apolloProvider.defaultClient
+      const apollo = this.app.apolloProvider.clients.auth
       const res = await apollo.mutate({
         mutation: gql`
           mutation {

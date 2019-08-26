@@ -73,6 +73,12 @@ module.exports = {
       default: {
         httpEndpoint: process.env.GRAPHQL_API_URI,
         httpLinkOptions: {
+          credentials: 'same-origin'
+        }
+      },
+      auth: {
+        httpEndpoint: process.env.GRAPHQL_API_URI,
+        httpLinkOptions: {
           credentials: 'include'
         }
       }
