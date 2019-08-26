@@ -1,6 +1,9 @@
 <template>
   <main class="spotlight-container">
     <div class="spotlight">
+      <no-ssr>
+        <SearchBar />
+      </no-ssr>
       <div
         :style="{ '--number-of-col': numberOfCol, '--number-of-row': Math.floor(itemPrePage / numberOfCol) }"
         class="case-container"
@@ -31,7 +34,7 @@
             <font-awesome-icon :icon="['fas', 'angle-left']" />
           </div>
           <li
-            v-for="index in Math.floor(items.length / itemPrePage) + 1"
+            v-for="index in Math.ceil(items.length / itemPrePage)"
             :key="`page-${index}`"
             :class="{ 'active': index === nowPage }"
             class="page-number-box"
@@ -40,7 +43,7 @@
             <span class="font-slab">{{ index }}</span>
           </li>
           <div
-            :class="{ 'unavailable': nowPage === Math.floor(items.length / itemPrePage) + 1 }"
+            :class="{ 'unavailable': nowPage === Math.ceil(items.length / itemPrePage) }"
             class="page-number-next page-number-box"
             @click="setNowPage(nowPage + 1)"
           >
@@ -54,6 +57,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import SearchBar from './element/SearchBar'
 
 export default {
   name: 'Exhibition',
@@ -63,6 +67,10 @@ export default {
       title: this.$route.meta.head ? this.$route.meta.head.title : '',
       meta: this.$route.meta.head ? this.$route.meta.head.meta : ''
     }
+  },
+
+  components: {
+    SearchBar
   },
 
   data () {
