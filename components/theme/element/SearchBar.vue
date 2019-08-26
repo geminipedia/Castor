@@ -100,6 +100,7 @@ export default {
   methods: {
     ...mapActions({
       search: 'item/search',
+      setNowPage: 'item/setNowPage',
       setSearchMode: 'item/setSearchMode',
       setSearchRawText: 'item/setSearchRawText',
       setSearchOrderBy: 'item/setSearchOrderBy',
@@ -121,6 +122,7 @@ export default {
       this.setSearchOrderBy(this.searchOrderBy)
 
       await this.search({ where: query, orderBy: this.searchOrderBy })
+      this.setNowPage(1)
       this.setSearchResultMode(true)
     },
 
@@ -131,6 +133,7 @@ export default {
       if (this.searchResultMode) {
         this.setSearchMode('NORMAL')
         this.setSearchResultMode(false)
+        this.setNowPage(1)
       }
     }
   }
