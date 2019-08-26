@@ -150,6 +150,7 @@ export default {
 
   async mounted () {
     this.searchText = this.searchRawText
+    this.advanceSearchBlock = this.searchRawText
     await this.getAllProperties()
     this.generateFilterFromProperties()
   },
@@ -183,6 +184,8 @@ export default {
             }
           }))
         }
+
+        this.searchText = this.advanceSearchBlock
       } else {
         query = { name_contains: this.searchText }
       }
