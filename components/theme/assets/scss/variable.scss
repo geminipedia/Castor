@@ -5,3 +5,5 @@ $case-radius: 5px;
 $case-gap: 10px;
 $case-size: calc((100% - #{$case-gap} * (var(--number-of-col) - 1)) / var(--number-of-col));
 $case-image-height: 320px;
+
+$search-box-shadow: 0 4px 12px rgba($black, .1);
