@@ -2,11 +2,13 @@ import gql from 'graphql-tag'
 import * as types from './mutation-types'
 
 export const state = () => ({
-  items: []
+  items: [],
+  nowPage: 1
 })
 
 export const getters = {
-  items: state => state.items
+  items: state => state.items,
+  nowPage: state => state.nowPage
 }
 
 export const actions = {
@@ -16,7 +18,7 @@ export const actions = {
       const res = await apollo.query({
         query: gql`
           query {
-            items {
+            items (orderBy: itemId_ASC) {
               id
               itemId
               name
@@ -179,6 +181,10 @@ export const actions = {
     } catch (error) {
       throw new Error(error)
     }
+  },
+
+  setNowPage ({ commit }, data) {
+    commit(types.ITEM_NOWPAGE, data)
   }
 }
 
@@ -189,5 +195,9 @@ export const mutations = {
 
   [types.ITEMS_APPEND] (state, data) {
     state.items.push(...data)
+  },
+
+  [types.ITEM_NOWPAGE] (state, data) {
+    state.nowPage = data
   }
 }

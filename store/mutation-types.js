@@ -23,3 +23,5 @@ export const USER_LOGOUT = 'USER_LOGOUT'
 export const ITEMS = 'ITEMS'
 
 export const ITEMS_APPEND = 'ITEMS_APPEND'
+
+export const ITEM_NOWPAGE = 'ITEM_NOWPAGE'
