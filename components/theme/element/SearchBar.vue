@@ -3,12 +3,37 @@
     <div class="search-box-container">
       <div class="search-box">
         <input
+          v-show="!advanceSearch"
           v-model="searchText"
           type="search"
           class="search-input"
           placeholder="Type something here to search..."
           @keyup.enter="searchItem()"
         >
+        <div
+          v-show="advanceSearch"
+          class="search-input search-input-advance"
+          placeholder="Pick up filters here to search..."
+        >
+          <div
+            v-for="(filter, index) in advanceSearchBlock"
+            :key="filter.name"
+            class="search-advance-filter using"
+          >
+            <div
+              class="remove"
+              @click="removeFilter(index)"
+            >
+              <font-awesome-icon :icon="['fas', 'times']" />
+            </div>
+            <span>{{ filter.name }}</span>
+            <input
+              v-model="advanceSearchBlock[index].value"
+              type="text"
+              :style="{ 'width': `${(filter.value.length <= 3 ? 3 : filter.value.length) * 13}pt` }"
+            >
+          </div>
+        </div>
         <div
           class="search-box-clear"
           @click="clearSearch()"
@@ -61,6 +86,20 @@
       </div>
     </div>
     <div
+      v-if="advanceSearch"
+      class="search-advance-filter-container"
+    >
+      <label class="font-slab">Filters</label>
+      <div
+        v-for="filter in filters"
+        :key="filter.propertyId"
+        class="search-advance-filter"
+        @click="pickUpFilter(filter)"
+      >
+        <span>{{ filter.name }}</span>
+      </div>
+    </div>
+    <div
       v-if="searchResultMode"
       class="search-result-number-container"
     >
@@ -77,7 +116,9 @@ export default {
 
   data () {
     return {
-      searchText: ''
+      searchText: '',
+      advanceSearchBlock: [],
+      filters: []
     }
   },
 
@@ -89,12 +130,28 @@ export default {
       searchOrderBy: 'item/searchOrderBy',
       searchResultMode: 'item/searchResultMode',
       advanceSearch: 'item/advanceSearch',
-      querySearch: 'item/querySearch'
+      querySearch: 'item/querySearch',
+      properties: 'property/properties'
     })
   },
 
-  mounted () {
+  watch: {
+    advanceSearch (newValue, oldValue) {
+      this.setSearchRawText('')
+      this.searchText = ''
+      this.advanceSearchBlock = []
+    },
+
+    querySearch () {
+      this.setSearchRawText('')
+      this.searchText = ''
+    }
+  },
+
+  async mounted () {
     this.searchText = this.searchRawText
+    await this.getAllProperties()
+    this.generateFilterFromProperties()
   },
 
   methods: {
@@ -104,7 +161,8 @@ export default {
       setSearchMode: 'item/setSearchMode',
       setSearchRawText: 'item/setSearchRawText',
       setSearchOrderBy: 'item/setSearchOrderBy',
-      setSearchResultMode: 'item/setSearchResultMode'
+      setSearchResultMode: 'item/setSearchResultMode',
+      getAllProperties: 'property/getAll'
     }),
 
     async searchItem () {
@@ -113,7 +171,18 @@ export default {
       if (this.querySearch) {
         query = JSON.parse(this.searchText)
       } else if (this.advanceSearch) {
-        // Advance search placeholder...
+        query = {
+          AND: this.advanceSearchBlock.map(filter => ({
+            statements_some: {
+              property: {
+                propertyId: filter.propertyId
+              },
+              entity: {
+                value_contains: filter.value
+              }
+            }
+          }))
+        }
       } else {
         query = { name_contains: this.searchText }
       }
@@ -129,12 +198,31 @@ export default {
     clearSearch () {
       this.setSearchRawText('')
       this.searchText = ''
+      this.setSearchMode('NORMAL')
 
       if (this.searchResultMode) {
-        this.setSearchMode('NORMAL')
         this.setSearchResultMode(false)
         this.setNowPage(1)
       }
+    },
+
+    generateFilterFromProperties () {
+      const properties = this.properties
+      this.filters = properties
+        .map(property => property.i18n.filter(value => value.lang.code === this.lang)[0].text)
+        .map((ele, index) => ({
+          name: ele,
+          propertyId: properties[index].propertyId
+        }))
+        .sort((a, b) => (a.name.length > b.name.length))
+    },
+
+    pickUpFilter (filter) {
+      this.advanceSearchBlock.push({ ...filter, value: '' })
+    },
+
+    removeFilter (index) {
+      this.advanceSearchBlock.splice(index, 1)
     }
   }
 }
