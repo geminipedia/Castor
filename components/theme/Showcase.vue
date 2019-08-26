@@ -105,15 +105,18 @@ import Paragraph from '~/components/element/Paragraph.vue'
 
 export default {
   name: 'Showcase',
+
   head () {
     return {
       title: `${this.item.name} - ${this.$route.meta.head ? this.$route.meta.head.title : ''}`,
       meta: this.$route.meta.head ? this.$route.meta.head.meta : ''
     }
   },
+
   components: {
     Paragraph
   },
+
   data () {
     return {
       bookmarked: false,
@@ -121,9 +124,11 @@ export default {
       likeCount: 1023
     }
   },
+
   computed: {
     ...mapGetters({ lang: 'app/language' })
   },
+
   watch: {
     liked: {
       immediate: true,
@@ -132,6 +137,7 @@ export default {
       }
     }
   },
+
   async asyncData ({ params, store }) {
     const item = await store.dispatch('item/getById', params.id)
     const _result = await Promise.all(item.introduction.map(async (context) => {
@@ -149,11 +155,13 @@ export default {
       item
     }
   },
+
   methods: {
     highlightHandler (selected) {
       // eslint-disable-next-line no-console
       console.log({ selected })
     },
+
     dateFormat (date) {
       const _date = new Date(date).toDateString().split(' ').slice(1)
       return `${_date[0]} ${_date[1]}, ${_date[2]}`
