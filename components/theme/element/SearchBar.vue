@@ -31,6 +31,7 @@
               v-model="advanceSearchBlock[index].value"
               type="text"
               :style="{ 'width': `${(filter.value.length <= 3 ? 3 : filter.value.length) * 13}pt` }"
+              @keyup.enter="searchItem()"
             >
           </div>
         </div>
