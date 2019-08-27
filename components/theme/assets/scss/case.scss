@@ -81,13 +81,22 @@
   }
 
   img {
+    position: relative;
     display: inline-block;
     margin: auto;
     width: auto;
+    height: 100%;
     max-width: 100%;
     max-height: $case-image-height;
     z-index: 0;
     transition: all ease-in-out .1s;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &[lazy="loaded"] {
+      height: auto;
+    }
   }
 
   .content {

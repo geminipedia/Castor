@@ -34,6 +34,9 @@ module.exports = {
   plugins: [
     {
       src: '~/plugins/font-awesome'
+    },
+    {
+      src: '~/plugins/lazyload'
     }
   ],
   /*

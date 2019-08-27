@@ -37,6 +37,7 @@ export const actions = {
               images {
                 file {
                   path
+                  meta
                 }
               }
               meta
@@ -69,6 +70,7 @@ export const actions = {
               images {
                 file {
                   path
+                  meta
                 }
               }
               meta
@@ -105,6 +107,7 @@ export const actions = {
               images {
                 file {
                   path
+                  meta
                 }
               }
               meta
@@ -178,6 +181,7 @@ export const actions = {
                 name
                 file {
                   path
+                  meta
                 }
               }
               meta
@@ -246,6 +250,7 @@ export const actions = {
                 name
                 file {
                   path
+                  meta
                 }
               }
               meta

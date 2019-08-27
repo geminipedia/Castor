@@ -12733,6 +12733,11 @@ vue-jest@^4.0.0-0:
     source-map "^0.5.6"
     ts-jest "^23.10.5"
 
+vue-lazyload@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.3.2.tgz#3d6123b6a6c177aef06aa6d3ad7b6c36ce3c25ab"
+  integrity sha512-dBrtZZSsKJktRIYkq55O44X7bCeNsSbjhmDRdjR5C1wSV/TcJnmVyV/9weRLF3ll+dGv0CLTfouSpIOFfSO1MQ==
+
 vue-loader@^15.7.0:
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.7.1.tgz#6ccacd4122aa80f69baaac08ff295a62e3aefcfd"

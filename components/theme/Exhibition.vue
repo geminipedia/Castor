@@ -15,7 +15,9 @@
           class="case"
         >
           <img
-            :src="item.images[0].file.path"
+            v-lazy="item.images[0].file.path"
+            :style="{ 'background-image': `url(${item.images[0].file.meta.min})` }"
+            :data-loading="item.images[0].file.meta.min"
             :title="item.name"
             :alt="item.name"
           >
