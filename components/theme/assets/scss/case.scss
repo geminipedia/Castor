@@ -83,7 +83,7 @@
   img {
     position: relative;
     display: inline-block;
-    margin: auto;
+    margin: 2rem auto;
     width: auto;
     height: 100%;
     max-width: 100%;
@@ -93,9 +93,14 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    z-index: 0;
+    filter: blur(1px);
+    transition: all ease-in-out .3s;
 
     &[lazy="loaded"] {
+      filter: none;
       height: auto;
+      margin: auto;
     }
   }
 
