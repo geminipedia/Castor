@@ -1,5 +1,7 @@
 const path = require('path')
 const dotenv = require('dotenv')
+const axios = require('axios')
+const gql = require('graphql-tag')
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -51,12 +53,13 @@ module.exports = {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
-    '@nuxtjs/pwa',
     '@nuxtjs/router',
-    'nuxt-ssr-cache',
+    '@nuxtjs/sitemap',
     '@nuxtjs/google-gtag',
+    'nuxt-ssr-cache',
     'nuxt-webfontloader',
     ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }]
   ],
@@ -132,6 +135,128 @@ module.exports = {
     },
     debug: false, // enable to track in dev mode
     disableAutoPageTrack: false // disable if you don't want to track each page route with router.afterEach(...)
+  },
+  /*
+  ** Sitemap module configurence
+  */
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: `https://${process.env.SITE_DOMAIN}`,
+    cacheTime: 1000 * 60 * 15,
+    gzip: true,
+    generate: false,
+    routes (callback) {
+      axios.all([
+        // Persist route
+        axios.post(process.env.GRAPHQL_API_URI, {
+          query: gql`
+            query($siteName: String!) {
+              site (
+                where: {
+                  name: $siteName
+                }
+              ) {
+                menu {
+                  path
+                  type
+                }
+              }
+            }
+          `,
+          variables: {
+            siteName: process.env.SITE_NAME
+          }
+        }),
+
+        // Posts
+        axios.post(process.env.GRAPHQL_API_URI, {
+          query: gql`
+            query {
+              posts (
+                where: {
+                  published: true
+                }
+              ) {
+                id
+              }
+            }
+          `,
+          variables: {
+            siteName: process.env.SITE_NAME
+          }
+        }),
+
+        // News
+        axios.post(process.env.GRAPHQL_API_URI, {
+          query: gql`
+            query {
+              newses (
+                where: {
+                  published: true
+                }
+              ) {
+                id
+              }
+            }
+          `,
+          variables: {
+            siteName: process.env.SITE_NAME
+          }
+        }),
+
+        // Items
+        axios.post(process.env.GRAPHQL_API_URI, {
+          query: gql`
+            query {
+              items {
+                itemId
+              }
+            }
+          `,
+          variables: {
+            siteName: process.env.SITE_NAME
+          }
+        })
+      ])
+        .then(axios.spread((base, posts, newses, items) => {
+          const baseRoutes = base.data.data.site.menu
+            .filter(ele => (ele.type === 'HOME' || ele.type === 'MAIN'))
+            .map(ele => ({
+              url: ele.path,
+              changefreq: 'daily',
+              priority: 1
+            }))
+
+          const postRoutes = posts.data.data.posts
+            .map(ele => ({
+              url: `${process.env.POST_ROOT_PATH_ALIAS}/${ele.id}`,
+              changefreq: 'daily',
+              priority: 0.8
+            }))
+
+          const newsRoutes = newses.data.data.newses
+            .map(ele => ({
+              url: `${process.env.NEWS_ROOT_PATH_ALIAS}/${ele.id}`,
+              changefreq: 'daily',
+              priority: 0.8
+            }))
+
+          const itemRoutes = items.data.data.items
+            .map(ele => ({
+              url: `${process.env.ITEM_ROOT_PATH_ALIAS}/${ele.itemId}`,
+              changefreq: 'daily',
+              priority: 0.8
+            }))
+
+          callback(null, [
+            ...baseRoutes,
+            ...postRoutes,
+            ...newsRoutes,
+            ...itemRoutes
+          ])
+        }))
+        .catch(callback)
+    }
   },
   /*
   ** Build configuration
