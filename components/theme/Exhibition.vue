@@ -27,7 +27,10 @@
         </figure>
       </div>
       <no-ssr>
-        <ul class="case-page-nav">
+        <ul
+          v-if="Math.ceil(items.length / itemPrePage) < 8"
+          class="case-page-nav"
+        >
           <div
             :class="{ 'unavailable': nowPage === 1 }"
             class="page-number-pre page-number-box"
@@ -43,6 +46,64 @@
             @click="setNowPage(index)"
           >
             <span class="font-slab">{{ index }}</span>
+          </li>
+          <div
+            :class="{ 'unavailable': nowPage === Math.ceil(items.length / itemPrePage) }"
+            class="page-number-next page-number-box"
+            @click="setNowPage(nowPage + 1)"
+          >
+            <font-awesome-icon :icon="['fas', 'angle-right']" />
+          </div>
+        </ul>
+        <ul
+          v-else
+          class="case-page-nav"
+        >
+          <div
+            :class="{ 'unavailable': nowPage === 1 }"
+            class="page-number-pre page-number-box"
+            @click="setNowPage(nowPage - 1)"
+          >
+            <font-awesome-icon :icon="['fas', 'angle-left']" />
+          </div>
+          <li
+            :class="{ 'active': nowPage === 1 }"
+            class="page-number-box"
+            @click="setNowPage(1)"
+          >
+            <span class="font-slab">1</span>
+          </li>
+          <li
+            v-if="nowPage > 5"
+            class="page-number-box dashed"
+          >
+            <span class="font-slab">
+              <font-awesome-icon :icon="['fas', 'ellipsis-h']" />
+            </span>
+          </li>
+          <li
+            v-for="index in ((nowPage > 5) && (Math.ceil(items.length / itemPrePage) - nowPage > 7)) ? 6 : 7"
+            :key="`page-${index}`"
+            :class="{ 'active': index + (nowPage > 5 ? (Math.ceil(items.length / itemPrePage) - nowPage > 6) ? (nowPage - 2) : Math.ceil(items.length / itemPrePage) - 8 : 1) === nowPage }"
+            class="page-number-box"
+            @click="setNowPage(index + (nowPage > 5 ? (Math.ceil(items.length / itemPrePage) - nowPage > 6) ? (nowPage - 2) : Math.ceil(items.length / itemPrePage) - 8 : 1))"
+          >
+            <span class="font-slab">{{ index + (nowPage > 5 ? (Math.ceil(items.length / itemPrePage) - nowPage > 6) ? (nowPage - 2) : Math.ceil(items.length / itemPrePage) - 8 : 1) }}</span>
+          </li>
+          <li
+            v-if="Math.ceil(items.length / itemPrePage) - nowPage > 6"
+            class="page-number-box dashed"
+          >
+            <span class="font-slab">
+              <font-awesome-icon :icon="['fas', 'ellipsis-h']" />
+            </span>
+          </li>
+          <li
+            :class="{ 'active': nowPage === Math.ceil(items.length / itemPrePage) }"
+            class="page-number-box"
+            @click="setNowPage(Math.ceil(items.length / itemPrePage))"
+          >
+            <span class="font-slab">{{ Math.ceil(items.length / itemPrePage) }}</span>
           </li>
           <div
             :class="{ 'unavailable': nowPage === Math.ceil(items.length / itemPrePage) }"

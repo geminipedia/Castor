@@ -34,6 +34,15 @@
         color: $black;
         cursor: pointer;
         transition: all ease-in-out .1s;
+
+        &.dashed {
+          border: 0;
+          cursor: default;
+
+          &:hover {
+            font-size: 14pt;
+          }
+        }
   
         &.active {
           background-color: $black;
