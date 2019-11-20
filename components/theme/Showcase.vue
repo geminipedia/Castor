@@ -109,7 +109,15 @@ export default {
   head () {
     return {
       title: `${this.item.name} - ${this.$route.meta.head ? this.$route.meta.head.title : ''}`,
-      meta: this.$route.meta.head ? this.$route.meta.head.meta : ''
+      meta: this.$route.meta.head
+        ? JSON.parse(
+          JSON.stringify(this.$route.meta.head.meta)
+            .replace(/%ITEM_ITEMID%/g, this.$route.params.id)
+            .replace(/%ITEM_NAME%/g, this.item.name)
+            .replace(/%ITEM_IMG%/g, this.item.images[0].file.path)
+            .replace(/jp2/g, 'jpg')
+        )
+        : ''
     }
   },
 
