@@ -41,14 +41,15 @@
           </table>
         </div>
       </section>
-      <section
-        class="article-content font-serif"
-      >
-        <Paragraph
-          v-for="paragraph in item.introduction"
-          :key="paragraph.id"
-          :paragraph="paragraph"
-        />
+      <section class="article-content font-serif">
+        <p class="paragraph highlightable">
+          <span
+            v-for="(context, index) in item.introduction[0].entity.value.split('\n')"
+            :key="index"
+          >
+            {{ context }}
+          </span>
+        </p>
       </section>
     </article>
     <footer class="article-footer">
@@ -101,7 +102,6 @@
 <script>
 import * as _ from 'lodash'
 import { mapGetters } from 'vuex'
-import Paragraph from '~/components/element/Paragraph.vue'
 
 export default {
   name: 'Showcase',
@@ -119,10 +119,6 @@ export default {
         )
         : ''
     }
-  },
-
-  components: {
-    Paragraph
   },
 
   data () {
@@ -148,13 +144,18 @@ export default {
 
   async asyncData ({ params, store }) {
     const item = await store.dispatch('item/getById', params.id)
-    const _result = await Promise.all(item.introduction.map(async (context) => {
-      const _result = await store.dispatch('paragraph/parseMarkup', context)
-      return _result
-    }))
-    item.introduction = item.introduction.map((context, index) => ({ ...context, nested: _result[index] }))
+    // const _result = await Promise.all(item.introduction.map(async (context) => {
+    //   const _result = await store.dispatch('paragraph/parseMarkup', context)
+    //   return _result
+    // }))
+    // item.introduction = item.introduction.map((context, index) => ({ ...context, nested: _result[index] }))
 
     if (Array.isArray(item.statements)) {
+      if (!item.introduction || item.introduction.length === 0) {
+        item.introduction = []
+        item.introduction = item.statements.filter(statement => (statement.property.name === 'description'))
+      }
+
       item.statements = item.statements.filter(ele => (ele.property.meta ? (!ele.property.meta.hidden) : true))
       item.statements = _.groupBy(item.statements, 'property.name')
     }
